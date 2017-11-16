@@ -1,0 +1,20 @@
+html {
+  height: 100%; }
+
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0; }
+
+.select-golf-card {
+  padding: 10px;
+  max-width: 500px; }
+  .select-golf-card .card-body .course-dropdown .card-buttons {
+    display: flex;
+    width: 100%;
+    justify-content: space-between; }
+    .select-golf-card .card-body .course-dropdown .card-buttons #dropdownMenuButton {
+      width: 80%; }
+
+/*# sourceMappingURL=main.css.map */
