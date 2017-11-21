@@ -2,29 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
     <title>Golf</title>
 
     <script defer src="scripts/jquery-3.2.1.js"></script>
     <script defer src="scripts/bootstrap.bundle.js"></script>
+    <script defer src="scripts/dynamicHTMLItems.js"></script>
     <script defer src="scripts/golf.js"></script>
+
     <link rel="stylesheet" href="styles/bootstrap.css">
     <link rel="stylesheet" href="styles/main.css">
 
 
 </head>
 <body onload="loadMe()">
+
+<div class="main-header">
+    <span class='header-item' id="course-name-header"></span>
+    <span class='header-item' id="course-tee-type-header"></span>
+</div>
 <div class="main-wrapper container-fluid h-100 d-flex">
     <div class="row w-100 align-self-center justify-content-center align-content-center">
-        <div class="card select-golf-card">
-            <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card select-golf-card" id="welcome-card">
+            <img class="card-img-top" src="./images/golf_club.jpg" alt="Card image cap">
             <div class="card-body">
-                <h4 class="card-title">Card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <h4 class="card-title" id="welcome-card-title">Select A Course</h4>
+                <p class="card-text" id="welcome-card-description">Select a course, then select your preferred tee type. When you're satisfied with your selection, hit 'Go'.</p>
                 <div class="card-buttons">
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <a href="#" class="btn btn-primary" id="go">Go</a>
                     <div class="dropdown" id="course-dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown button
+                            Select Course
                         </button>
                         <div class="dropdown-menu" id="dropdown-courses" aria-labelledby="dropdownMenuButton">
                             <!--<a class="dropdown-item" href="#">Action</a>-->
@@ -35,8 +43,65 @@
 
             </div>
         </div>
+
+        <table class="table table-striped" id="score-table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Username</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
 </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Search for a Course</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Type in your maximum search radius to search for golf courses. (e.g. 20 to find all golf courses within 20 miles)
+            </div>
+            <div id="modal-input-container">
+                <input placeholder="20" id="radius-input" type="number" />
+            </div>
+            <div class="modal-footer">
+                <button id="modal-go-bttn" type="button" class="btn btn-primary" data-dismiss="modal">Go</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="modal-button" type="button" class="btn btn-primary launch-modal" data-toggle="modal" data-target="#exampleModal">
+    This button should never be visible
+</button>
 </body>
 </html>

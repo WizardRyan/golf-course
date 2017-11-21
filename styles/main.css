@@ -7,14 +7,48 @@ body {
   margin: 0;
   padding: 0; }
 
+.main-header {
+  width: 100%;
+  height: 100px;
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px 0 20px; }
+  .main-header span {
+    font-size: 3em; }
+
 .select-golf-card {
   padding: 10px;
   max-width: 500px; }
-  .select-golf-card .card-body .course-dropdown .card-buttons {
+  .select-golf-card .radius-input {
+    margin: 10px 10px; }
+  .select-golf-card .card-body .card-buttons {
     display: flex;
     width: 100%;
     justify-content: space-between; }
-    .select-golf-card .card-body .course-dropdown .card-buttons #dropdownMenuButton {
+    .select-golf-card .card-body .card-buttons #go {
+      width: 100px; }
+    .select-golf-card .card-body .card-buttons .course-dropdown #dropdownMenuButton {
       width: 80%; }
+
+.launch-modal {
+  display: none; }
+
+#modal-input-container {
+  display: flex;
+  width: 100%;
+  justify-content: center; }
+  #modal-input-container #radius-input {
+    width: 50%;
+    justify-self: center;
+    margin: 20px 20px;
+    border-radius: 4px;
+    border: none;
+    border-bottom: 1px solid lightgray;
+    font-size: 2em; }
+  #modal-input-container #radius-input:focus {
+    outline: none; }
 
 /*# sourceMappingURL=main.css.map */

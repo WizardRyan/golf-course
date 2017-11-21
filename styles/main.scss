@@ -10,6 +10,22 @@ body{
   padding: 0;
 }
 
+  .main-header{
+    width: 100%;
+    height: 100px;
+    background-color: black;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px 0 20px;
+
+    span{
+      font-size: 3em;
+    }
+  }
+
 .main-wrapper{
 
 }
@@ -18,20 +34,48 @@ body{
   padding: 10px;
   max-width: 500px;
 
+  .radius-input{
+    margin: 10px 10px;
+  }
+
 
   .card-body{
-
-    .course-dropdown{
-
       .card-buttons{
         display: flex;
         width: 100%;
         justify-content: space-between;
 
-        #dropdownMenuButton{
-          width: 80%;
+        #go{
+          width: 100px;
         }
-      }
+        .course-dropdown {
+
+          #dropdownMenuButton {
+            width: 80%;
+          }
+        }
     }
+  }
+}
+
+.launch-modal{
+  display: none;
+}
+#modal-input-container{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+
+  #radius-input{
+    width: 50%;
+    justify-self: center;
+    margin: 20px 20px;
+    border-radius: 4px;
+    border: none;
+    border-bottom: 1px solid lightgray;
+    font-size: 2em;
+  }
+  #radius-input:focus{
+    outline: none;
   }
 }
