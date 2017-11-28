@@ -12,13 +12,25 @@ let modalButton = $('#modal-button');
 let inputRadius = $('#radius-input');
 let modalGoButton = $('#modal-go-bttn');
 
+
 function loadMe(){
     scoreTable.hide();
+    $('#exampleModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+    });
     modalButton.click();
 }
 
 modalGoButton.on('click', () => {
     localObj.radius = (inputRadius.val()) ? inputRadius.val() : 20;
+    let coordinates = $('#coordinate-input').val().split(" ");
+    if(coordinates.length > 1){
+        localObj.latitude = Number(coordinates[0]);
+        localObj.longitude = Number(coordinates[1]);
+    }
+    // localObj.latitude = (isNaN(coordinates[0])) ? 40.4426135 : coordinates[0];
+    // localObj.longitude = (isNaN(coordinates[1])) ? -111.8631115 : coordinates[1];
+    debugger;
     getCourses();
 });
 

@@ -61,21 +61,37 @@ body{
 .launch-modal{
   display: none;
 }
+#exampleModal{
+  .modal-content{
+    //width: 1000px;
+  }
+}
 #modal-input-container{
   display: flex;
   width: 100%;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
 
   #radius-input{
-    width: 50%;
+    width: 80%;
     justify-self: center;
     margin: 20px 20px;
     border-radius: 4px;
     border: none;
     border-bottom: 1px solid lightgray;
     font-size: 2em;
+
   }
   #radius-input:focus{
+    outline: none;
+  }
+
+  #coordinate-input{
+    @extend #radius-input;
+  }
+
+  #coordinate-input:focus{
     outline: none;
   }
 }

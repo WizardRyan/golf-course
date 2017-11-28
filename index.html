@@ -75,7 +75,6 @@
             </tbody>
         </table>
     </div>
-
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -88,9 +87,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                Type in your maximum search radius to search for golf courses. (e.g. 20 to find all golf courses within 20 miles)
+                Type in your latitudinal and longitudinal coordinates, separated by a space (e.g. 40.4426135 -111.8631115) <br>
+                Then, type in your maximum search radius to search for golf courses. (e.g. 20 to find all golf courses within 20 miles)
             </div>
             <div id="modal-input-container">
+                <input placeholder="40.4426135 -111.8631115" id="coordinate-input" type="text" />
                 <input placeholder="20" id="radius-input" type="number" />
             </div>
             <div class="modal-footer">
