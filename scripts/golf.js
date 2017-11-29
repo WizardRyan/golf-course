@@ -11,7 +11,10 @@ let welcomeCard = $('#welcome-card');
 let modalButton = $('#modal-button');
 let inputRadius = $('#radius-input');
 let modalGoButton = $('#modal-go-bttn');
-
+let tableHeadRow = $('#score-table-head-row');
+let playerDropdown = $('#player-number-dropdown');
+let numOfPlayers = 1;
+let tableBody = $('#table-body');
 
 function loadMe(){
     scoreTable.hide();
@@ -19,6 +22,11 @@ function loadMe(){
         $('#myInput').trigger('focus')
     });
     modalButton.click();
+
+   playerDropdown.children().on('click', function(){
+       numOfPlayers = Number($(this).text());
+       console.log(numOfPlayers);
+   })
 }
 
 modalGoButton.on('click', () => {
@@ -28,9 +36,7 @@ modalGoButton.on('click', () => {
         localObj.latitude = Number(coordinates[0]);
         localObj.longitude = Number(coordinates[1]);
     }
-    // localObj.latitude = (isNaN(coordinates[0])) ? 40.4426135 : coordinates[0];
-    // localObj.longitude = (isNaN(coordinates[1])) ? -111.8631115 : coordinates[1];
-    debugger;
+
     getCourses();
 });
 
@@ -119,4 +125,57 @@ function loadScoreCard(){
     let teeHeader = $('#course-tee-type-header');
     nameHeader.text(currentCourse.course.name);
     teeHeader.text(currentTee);
+
+    addHoles();
+    addPlayers();
+}
+
+
+function addHoles(){
+    let holes = [];
+    let yardage = [];
+    let par = [];
+    let handicap = [];
+
+
+    for(let i in currentCourse.course.holes){
+        holes.push(`<th scope="col">Hole ${currentCourse.course.holes[i].hole_num} </th>`);
+        for(let j in currentCourse.course.holes[i].tee_boxes){
+            if(currentCourse.course.holes[i].tee_boxes[j].tee_type === currentTee){
+                yardage.push(`<td>${currentCourse.course.holes[i].tee_boxes[j].yards}`);
+                par.push(`<td>${currentCourse.course.holes[i].tee_boxes[j].par}`);
+                handicap.push(`<td>${currentCourse.course.holes[i].tee_boxes[j].hcp}`);
+            }
+        }
+    }
+    //yardage.reverse();
+    holes.reverse();
+    for(let i in currentCourse.course.holes){
+        tableHeadRow.prepend(holes[i]);
+        $('#yardage').append(yardage[i]);
+        $('#par').append(par[i]);
+        $('#handicap').append(handicap[i]);
+    }
+
+    tableHeadRow.prepend(`<th scope=col"> Golf Card </th>`);
+
+}
+
+
+
+
+function addPlayers() {
+    for (let i = 0; i < numOfPlayers; i++) {
+        tableBody.append(
+            `<tr id="player${i}">
+                <th scope="row">
+                    <input type="text" placeholder="Player ${i + 1}" >
+                </th>
+            </tr>`);
+        for(let j in currentCourse.course.holes){
+            $(`#player${i}`).append(`<td><input class="score-input" type="text"></td>`);
+        }
+    }
+
+
 }

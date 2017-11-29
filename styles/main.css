@@ -20,14 +20,15 @@ body {
     font-size: 3em; }
 
 .select-golf-card {
-  padding: 10px;
-  max-width: 500px; }
+  padding: 20px;
+  max-width: 700px; }
   .select-golf-card .radius-input {
     margin: 10px 10px; }
   .select-golf-card .card-body .card-buttons {
     display: flex;
     width: 100%;
-    justify-content: space-between; }
+    justify-content: space-between;
+    margin: 20px; }
     .select-golf-card .card-body .card-buttons #go {
       width: 100px; }
     .select-golf-card .card-body .card-buttons .course-dropdown #dropdownMenuButton {
@@ -54,5 +55,8 @@ body {
     outline: none; }
   #modal-input-container #coordinate-input:focus {
     outline: none; }
+
+.score-input {
+  width: 30px; }
 
 /*# sourceMappingURL=main.css.map */

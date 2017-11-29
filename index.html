@@ -27,7 +27,7 @@
             <img class="card-img-top" src="./images/golf_club.jpg" alt="Card image cap">
             <div class="card-body">
                 <h4 class="card-title" id="welcome-card-title">Select A Course</h4>
-                <p class="card-text" id="welcome-card-description">Select a course, then select your preferred tee type. When you're satisfied with your selection, hit 'Go'.</p>
+                <p class="card-text" id="welcome-card-description">Select a course, the number of players, then your preferred tee type. When you're satisfied with your selection, hit 'Go'.</p>
                 <div class="card-buttons">
                     <a href="#" class="btn btn-primary" id="go">Go</a>
                     <div class="dropdown" id="course-dropdown">
@@ -38,7 +38,17 @@
                             <!--<a class="dropdown-item" href="#">Action</a>-->
                         </div>
                     </div>
-
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuPlayers" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Number of Players
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuPlayers" id="player-number-dropdown">
+                            <a class="dropdown-item" href="#">1</a>
+                            <a class="dropdown-item" href="#">2</a>
+                            <a class="dropdown-item" href="#">3</a>
+                            <a class="dropdown-item" href="#">4</a>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -46,32 +56,31 @@
 
         <table class="table table-striped" id="score-table">
             <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Username</th>
+            <tr id="score-table-head-row">
+                <th scope="col"></th>
+
+                <th scope="col">Out Score</th>
+                <th scope="col">In Score</th>
+                <th scope="col">Total Score</th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+            <tbody id="table-body">
+            <tr id="par">
+                <th scope="row">Par</th>
+                <!--<td>Mark</td>-->
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
+            <tr id="yardage">
+                <th scope="row">Yardage</th>
+
             </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
+
+            <tr id="handicap">
+                <th scope="row">Handicap</th>
             </tr>
+
+
+
+
             </tbody>
         </table>
     </div>
@@ -89,6 +98,8 @@
             <div class="modal-body">
                 Type in your latitudinal and longitudinal coordinates, separated by a space (e.g. 40.4426135 -111.8631115) <br>
                 Then, type in your maximum search radius to search for golf courses. (e.g. 20 to find all golf courses within 20 miles)
+                <br>
+                Enter in no information to default to the placeholders
             </div>
             <div id="modal-input-container">
                 <input placeholder="40.4426135 -111.8631115" id="coordinate-input" type="text" />
