@@ -57,6 +57,17 @@ body {
     outline: none; }
 
 .score-input {
-  width: 30px; }
+  width: 30px;
+  border: none;
+  background-color: transparent;
+  border-bottom: 1px solid gray; }
+
+.score-input:focus {
+  outline: none; }
+
+.score-input::-webkit-outer-spin-button,
+.score-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0; }
 
 /*# sourceMappingURL=main.css.map */

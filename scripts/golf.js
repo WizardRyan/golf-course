@@ -144,7 +144,12 @@ function addHoles(){
             if(currentCourse.course.holes[i].tee_boxes[j].tee_type === currentTee){
                 yardage.push(`<td>${currentCourse.course.holes[i].tee_boxes[j].yards}`);
                 par.push(`<td>${currentCourse.course.holes[i].tee_boxes[j].par}`);
-                handicap.push(`<td>${currentCourse.course.holes[i].tee_boxes[j].hcp}`);
+                if(typeof currentCourse.course.holes[i].tee_boxes[j].hcp !=='undefined'){
+                    handicap.push(`<td>${currentCourse.course.holes[i].tee_boxes[j].hcp}`);
+                }
+                else{
+                    handicap.push(`<td>N/A</td>`);
+                }
             }
         }
     }
@@ -173,9 +178,55 @@ function addPlayers() {
                 </th>
             </tr>`);
         for(let j in currentCourse.course.holes){
-            $(`#player${i}`).append(`<td><input class="score-input" type="text"></td>`);
+            $(`#player${i}`).append(`<td><input id="score-input-${i}-${j}" class="score-input" type="number"></td>`);
+            $(`#score-input-${i}-${j}`).change(updateScores);
         }
+        $(`#player${i}`).append(`<td id=player-out-${i}></td>`);
+        $(`#player${i}`).append(`<td id=player-in-${i}></td>`);
+        $(`#player${i}`).append(`<td id=player-total-${i}></td>`);
+
+
+    }
+}
+
+function updateScores(){
+    console.log('change');
+
+    let numOfHoles = 0;
+
+    for(let i in currentCourse.course.holes){
+        numOfHoles++;
     }
 
+    for(let i = 0; i < numOfPlayers; i++){
+        let currentTotal = $(`#player-total-${i}`);
+        let currentIn = $(`#player-in-${i}`);
+        let currentOut = $(`#player-out-${i}`);
 
+        let inScore = 0;
+        let outScore = 0;
+        let totalScore = 0;
+
+        for(let j in currentCourse.course.holes){
+            let currentScore = $(`#score-input-${i}-${j}`).val();
+            try{
+                currentScore = Number(currentScore);
+                totalScore += currentScore;
+                if(j <= numOfHoles / 2){
+                    inScore+= currentScore;
+                }
+
+                else if(j >= numOfHoles / 2){
+                    outScore += currentScore;
+                }
+            }
+            catch(e){
+
+            }
+        }
+
+        currentIn.text(inScore);
+        currentOut.text(outScore);
+        currentTotal.text(totalScore);
+    }
 }
