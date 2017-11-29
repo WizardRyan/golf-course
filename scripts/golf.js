@@ -181,8 +181,9 @@ function addPlayers() {
             $(`#player${i}`).append(`<td><input id="score-input-${i}-${j}" class="score-input" type="number"></td>`);
             $(`#score-input-${i}-${j}`).change(updateScores);
         }
-        $(`#player${i}`).append(`<td id=player-out-${i}></td>`);
+
         $(`#player${i}`).append(`<td id=player-in-${i}></td>`);
+        $(`#player${i}`).append(`<td id=player-out-${i}></td>`);
         $(`#player${i}`).append(`<td id=player-total-${i}></td>`);
 
 
@@ -198,6 +199,8 @@ function updateScores(){
         numOfHoles++;
     }
 
+    console.log(numOfHoles);
+
     for(let i = 0; i < numOfPlayers; i++){
         let currentTotal = $(`#player-total-${i}`);
         let currentIn = $(`#player-in-${i}`);
@@ -212,11 +215,12 @@ function updateScores(){
             try{
                 currentScore = Number(currentScore);
                 totalScore += currentScore;
+
                 if(j <= numOfHoles / 2){
                     inScore+= currentScore;
                 }
 
-                else if(j >= numOfHoles / 2){
+                else if(j > numOfHoles / 2){
                     outScore += currentScore;
                 }
             }
