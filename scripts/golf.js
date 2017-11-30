@@ -25,7 +25,10 @@ function loadMe(){
 
    playerDropdown.children().on('click', function(){
        numOfPlayers = Number($(this).text());
-       console.log(numOfPlayers);
+   });
+
+   $('button').on('click', function(e){
+       e.preventDefault();
    })
 }
 
@@ -179,7 +182,7 @@ function addPlayers() {
             </tr>`);
         for(let j in currentCourse.course.holes){
             $(`#player${i}`).append(`<td><input id="score-input-${i}-${j}" class="score-input" type="number"></td>`);
-            $(`#score-input-${i}-${j}`).change(updateScores);
+            $(`#score-input-${i}-${j}`).on('input', updateScores);
         }
 
         $(`#player${i}`).append(`<td id=player-in-${i}></td>`);
@@ -199,7 +202,6 @@ function updateScores(){
         numOfHoles++;
     }
 
-    console.log(numOfHoles);
 
     for(let i = 0; i < numOfPlayers; i++){
         let currentTotal = $(`#player-total-${i}`);
@@ -210,17 +212,18 @@ function updateScores(){
         let outScore = 0;
         let totalScore = 0;
 
-        for(let j in currentCourse.course.holes){
+        for(let j = 0; j < numOfHoles; j++){
             let currentScore = $(`#score-input-${i}-${j}`).val();
             try{
                 currentScore = Number(currentScore);
                 totalScore += currentScore;
 
-                if(j <= numOfHoles / 2){
-                    inScore+= currentScore;
+                if(j + 1 <= (numOfHoles / 2)){
+                    console.log(j, numOfHoles);
+                    inScore += currentScore;
                 }
 
-                else if(j > numOfHoles / 2){
+                else if(j + 1 > (numOfHoles / 2)){
                     outScore += currentScore;
                 }
             }
