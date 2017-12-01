@@ -15,9 +15,13 @@ let tableHeadRow = $('#score-table-head-row');
 let playerDropdown = $('#player-number-dropdown');
 let numOfPlayers = 1;
 let tableBody = $('#table-body');
+let selectTeeDiv = $('#select-tee');
+let numHoles = 0;
 
 function loadMe(){
     scoreTable.hide();
+    selectTeeDiv.hide();
+
     $('#exampleModal').on('shown.bs.modal', function () {
         $('#myInput').trigger('focus')
     });
@@ -67,7 +71,7 @@ function getCourse(courseId){
         console.log(currentCourse);
 
         addCardDetails();
-        addTees();
+        addTees(buttonRow, 1);
     })
 }
 
@@ -85,17 +89,24 @@ function addCardDetails(){
     $('#welcome-card-title').text(currentCourse.course.name);
 }
 
-function addTees(){
+function addTees(elem, id){
+    let dropdownButton = ` <div class="dropdown" id="course-dropdown">
+                               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Select Tee
+                               </button>
+                           <div class="dropdown-menu" id="dropdown-tees-${id}" aria-labelledby="dropdownMenuButton">
+                               <!--<a class="dropdown-item" href="#">Action</a>-->
+                           </div>
+                       </div>`;
     let dropDownTees;
 
-
     if(!teeAdded){
-        buttonRow.append(dropdownButton);
-        dropDownTees = $('#dropdown-tees');
+        elem.append(dropdownButton);
+        dropDownTees = $(`#dropdown-tees-${id}`);
         teeAdded = !teeAdded;
     }
     else{
-        dropDownTees = $('#dropdown-tees');
+        dropDownTees = $(`#dropdown-tees-${id}`);
         dropDownTees.empty();
     }
 
@@ -122,12 +133,26 @@ function addTees(){
 }
 
 function loadScoreCard(){
+
+    for(let i in currentCourse.course.holes){
+        numHoles++;
+    }
+
+
     welcomeCard.hide();
+    selectTeeDiv.show();
     scoreTable.show();
     let nameHeader = $('#course-name-header');
     let teeHeader = $('#course-tee-type-header');
     nameHeader.text(currentCourse.course.name);
     teeHeader.text(currentTee);
+
+    teeAdded = false;
+    addTees(selectTeeDiv, 2);
+    $('#dropdown-tees-2').on('click', 'a', function (e) {
+        currentTee = $(this).text();
+        updateTees(e);
+    });
 
     addHoles();
     addPlayers();
@@ -170,8 +195,6 @@ function addHoles(){
 }
 
 
-
-
 function addPlayers() {
     for (let i = 0; i < numOfPlayers; i++) {
         tableBody.append(
@@ -188,7 +211,6 @@ function addPlayers() {
         $(`#player${i}`).append(`<td id=player-in-${i}></td>`);
         $(`#player${i}`).append(`<td id=player-out-${i}></td>`);
         $(`#player${i}`).append(`<td id=player-total-${i}></td>`);
-
 
     }
 }
@@ -235,5 +257,27 @@ function updateScores(){
         currentIn.text(inScore);
         currentOut.text(outScore);
         currentTotal.text(totalScore);
+    }
+}
+
+function updateTees(e){
+
+    let yardage = [];
+    for(let i in currentCourse.course.holes){
+        for(let j in currentCourse.course.holes[i].tee_boxes){
+            if(currentCourse.course.holes[i].tee_boxes[j].tee_type === currentTee){
+                yardage.push(`<td>${currentCourse.course.holes[i].tee_boxes[j].yards}`);
+            }
+        }
+    }
+
+    console.log(yardage);
+
+    for(let i = 0; i < numHoles; i++){
+        $('#yardage').children().last().remove();
+    }
+
+    for(let i = 0; i < numHoles; i++){
+        $('#yardage').append(yardage[i]);
     }
 }
