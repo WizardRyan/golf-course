@@ -125,3 +125,14 @@ body{
   }
 
 }
+
+.player-input{
+  border:none;
+  border-bottom: 1px solid gray;
+  font-weight: bold;
+  background-color: transparent;
+}
+
+.player-input:focus{
+  outline: none;
+}

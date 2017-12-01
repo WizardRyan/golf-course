@@ -17,10 +17,17 @@ let numOfPlayers = 1;
 let tableBody = $('#table-body');
 let selectTeeDiv = $('#select-tee');
 let numHoles = 0;
+let teeHeader = $('#course-tee-type-header');
+let mainHeader = $('#main-header-id');
+let scoreModalButton = $('#score-modal-button');
+let gTotalScore = [];
+let gPar = 0;
 
 function loadMe(){
     scoreTable.hide();
     selectTeeDiv.hide();
+    mainHeader.hide();
+    scoreModalButton.hide();
 
     $('#exampleModal').on('shown.bs.modal', function () {
         $('#myInput').trigger('focus')
@@ -34,6 +41,7 @@ function loadMe(){
    $('button').on('click', function(e){
        e.preventDefault();
    })
+
 }
 
 modalGoButton.on('click', () => {
@@ -55,7 +63,6 @@ function getCourses(){
         }
         $('.courses-id-class').on('click', function(e){
             currentId = $(this).attr('data-course-id');
-            console.log(currentId);
              getCourse(currentId);
         });
     });
@@ -90,7 +97,7 @@ function addCardDetails(){
 }
 
 function addTees(elem, id){
-    let dropdownButton = ` <div class="dropdown" id="course-dropdown">
+     dropdownButton = ` <div class="dropdown" id="course-dropdown">
                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Select Tee
                                </button>
@@ -141,14 +148,15 @@ function loadScoreCard(){
 
     welcomeCard.hide();
     selectTeeDiv.show();
+    mainHeader.show();
     scoreTable.show();
     let nameHeader = $('#course-name-header');
-    let teeHeader = $('#course-tee-type-header');
     nameHeader.text(currentCourse.course.name);
     teeHeader.text(currentTee);
 
     teeAdded = false;
     addTees(selectTeeDiv, 2);
+    $('#dropdown-tees-2').parent().closest('div').removeClass('btn-secondary').addClass('btn-dark');
     $('#dropdown-tees-2').on('click', 'a', function (e) {
         currentTee = $(this).text();
         updateTees(e);
@@ -172,6 +180,7 @@ function addHoles(){
             if(currentCourse.course.holes[i].tee_boxes[j].tee_type === currentTee){
                 yardage.push(`<td>${currentCourse.course.holes[i].tee_boxes[j].yards}`);
                 par.push(`<td>${currentCourse.course.holes[i].tee_boxes[j].par}`);
+                gPar += currentCourse.course.holes[i].tee_boxes[j].par;
                 if(typeof currentCourse.course.holes[i].tee_boxes[j].hcp !=='undefined'){
                     handicap.push(`<td>${currentCourse.course.holes[i].tee_boxes[j].hcp}`);
                 }
@@ -200,12 +209,37 @@ function addPlayers() {
         tableBody.append(
             `<tr id="player${i}">
                 <th scope="row">
-                    <input type="text" placeholder="Player ${i + 1}" >
+                    <input type="text" class="player-input" placeholder="Player ${i + 1}" >
                 </th>
             </tr>`);
         for(let j in currentCourse.course.holes){
             $(`#player${i}`).append(`<td><input id="score-input-${i}-${j}" class="score-input" type="number"></td>`);
-            $(`#score-input-${i}-${j}`).on('input', updateScores);
+            if(j == Object.keys(currentCourse.course.holes).length - 1){
+
+                $(`#score-input-${i}-${j}`).on('input', function () {
+                    console.log("I'm in the func");
+                    updateScores();
+                    let body = $('#score-modal-body');
+                    let message;
+                    if(gTotalScore[i] - gPar > 5){
+                        message = "Better luck next time.";
+                    }
+                    if(gTotalScore[i] - gPar < 5 && gTotalScore - gPar > 0){
+                        message = 'Good Game.';
+                    }
+                    if(gTotalScore[i] - gPar <= 0){
+                        message = 'Excellent Game!';
+                    }
+
+                    message += ` Your score: ${gTotalScore[i]} Par: ${gPar}`;
+                    body.text(message);
+                    scoreModalButton.click();
+                });
+            }
+
+            else{
+                $(`#score-input-${i}-${j}`).on('input', updateScores);
+            }
         }
 
         $(`#player${i}`).append(`<td id=player-in-${i}></td>`);
@@ -216,7 +250,7 @@ function addPlayers() {
 }
 
 function updateScores(){
-    console.log('change');
+
 
     let numOfHoles = 0;
 
@@ -241,7 +275,7 @@ function updateScores(){
                 totalScore += currentScore;
 
                 if(j + 1 <= (numOfHoles / 2)){
-                    console.log(j, numOfHoles);
+
                     inScore += currentScore;
                 }
 
@@ -257,10 +291,12 @@ function updateScores(){
         currentIn.text(inScore);
         currentOut.text(outScore);
         currentTotal.text(totalScore);
+        gTotalScore[i] = totalScore;
     }
 }
 
 function updateTees(e){
+    teeHeader.text(currentTee);
 
     let yardage = [];
     for(let i in currentCourse.course.holes){
@@ -270,8 +306,6 @@ function updateTees(e){
             }
         }
     }
-
-    console.log(yardage);
 
     for(let i = 0; i < numHoles; i++){
         $('#yardage').children().last().remove();

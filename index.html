@@ -17,7 +17,7 @@
 </head>
 <body onload="loadMe()">
 
-<div class="main-header">
+<div class="main-header" id="main-header-id">
     <span class='header-item' id="course-name-header"></span>
     <span class='header-item' id="course-tee-type-header"></span>
 </div>
@@ -115,5 +115,29 @@
 <button id="modal-button" type="button" class="btn btn-primary launch-modal" data-toggle="modal" data-target="#exampleModal">
     This button should never be visible
 </button>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scoreModal" id="score-modal-button">
+    This button should also never be visible
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="scoreModal" tabindex="-1" role="dialog" aria-labelledby="scoreModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="scoreModalLabel">Game Finish</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="score-modal-body" class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
