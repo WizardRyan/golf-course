@@ -27,7 +27,7 @@
             <img class="card-img-top" src="./images/golf_club.jpg" alt="Card image cap">
             <div class="card-body">
                 <h4 class="card-title" id="welcome-card-title">Select A Course</h4>
-                <p class="card-text" id="welcome-card-description">Select a course, the number of players, then your preferred tee type. When you're satisfied with your selection, hit 'Go'.</p>
+                <p class="card-text" id="welcome-card-description">Select a course, the number of players this game, and then your preferred tee type. When you're satisfied with your selections, hit 'Go'.</p>
                 <div class="card-buttons">
                     <a href="#" class="btn btn-primary" id="go">Go</a>
                     <div class="dropdown" id="course-dropdown">
@@ -70,7 +70,7 @@
             <tbody id="table-body">
             <tr id="par">
                 <th scope="row">Par</th>
-                <!--<td>Mark</td>-->
+
             </tr>
             <tr id="yardage">
                 <th scope="row">Yardage</th>
@@ -125,7 +125,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="scoreModalLabel">Game Finish</h5>
+                <h5 class="modal-title" id="scoreModalLabel">Game Finished</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -134,7 +134,7 @@
                 ...
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="close-modal-button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

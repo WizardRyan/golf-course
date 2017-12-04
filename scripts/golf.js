@@ -22,6 +22,7 @@ let mainHeader = $('#main-header-id');
 let scoreModalButton = $('#score-modal-button');
 let gTotalScore = [];
 let gPar = 0;
+let parRow = $('#par');
 
 function loadMe(){
     scoreTable.hide();
@@ -32,10 +33,13 @@ function loadMe(){
     $('#exampleModal').on('shown.bs.modal', function () {
         $('#myInput').trigger('focus')
     });
+
+
     modalButton.click();
 
    playerDropdown.children().on('click', function(){
        numOfPlayers = Number($(this).text());
+       $(this).parent().prev().text('Number of Players: ' + numOfPlayers);
    });
 
    $('button').on('click', function(e){
@@ -63,7 +67,7 @@ function getCourses(){
         }
         $('.courses-id-class').on('click', function(e){
             currentId = $(this).attr('data-course-id');
-             getCourse(currentId);
+             getCourse(currentId, e);
         });
     });
 
@@ -72,9 +76,11 @@ function getCourses(){
     });
 }
 
-function getCourse(courseId){
+function getCourse(courseId, e){
     $.get("https://golf-courses-api.herokuapp.com/courses/" + courseId, (data) => {
         currentCourse = JSON.parse(data);
+        let a = $(e.target);
+        a.parent().prev().text(currentCourse.course.name);
         console.log(currentCourse);
 
         addCardDetails();
@@ -120,7 +126,7 @@ function addTees(elem, id){
 
     dropDownTees.append('<a href="#" class="dropdown-item courses-tee-class"> Loading... </a>');
 
-    window.setTimeout(() => {
+    //window.setTimeout(() => {
         dropDownTees.empty();
         for(let te in currentCourse.course.tee_types){
             if(currentCourse.course.tee_types[te].tee_type !== ""){
@@ -136,7 +142,7 @@ function addTees(elem, id){
            currentTee = $(this).text();
            dropDownTees.prev().text(currentTee);
         });
-    }, 2000);
+    //}, 2000);
 }
 
 function loadScoreCard(){
@@ -144,7 +150,6 @@ function loadScoreCard(){
     for(let i in currentCourse.course.holes){
         numHoles++;
     }
-
 
     welcomeCard.hide();
     selectTeeDiv.show();
@@ -156,7 +161,7 @@ function loadScoreCard(){
 
     teeAdded = false;
     addTees(selectTeeDiv, 2);
-    $('#dropdown-tees-2').parent().closest('div').removeClass('btn-secondary').addClass('btn-dark');
+    $('button').removeClass('btn-secondary').addClass('btn-dark');
     $('#dropdown-tees-2').on('click', 'a', function (e) {
         currentTee = $(this).text();
         updateTees(e);
@@ -199,7 +204,11 @@ function addHoles(){
         $('#handicap').append(handicap[i]);
     }
 
-    tableHeadRow.prepend(`<th scope=col"> Golf Card </th>`);
+    for(let i = 0; i < 2; i++){
+        parRow.append(`<td></td>`);
+    }
+    parRow.append(`<td>${gPar}</td>`);
+    tableHeadRow.prepend(`<th scope=col"> Score Card </th>`);
 
 }
 
@@ -221,19 +230,24 @@ function addPlayers() {
                     updateScores();
                     let body = $('#score-modal-body');
                     let message;
-                    if(gTotalScore[i] - gPar > 5){
-                        message = "Better luck next time.";
-                    }
-                    if(gTotalScore[i] - gPar < 5 && gTotalScore - gPar > 0){
-                        message = 'Good Game.';
-                    }
+
                     if(gTotalScore[i] - gPar <= 0){
                         message = 'Excellent Game!';
                     }
-
+                    else{
+                        message = 'Good Game.';
+                    }
+                    if(gTotalScore[i] - gPar > 5){
+                        message = "Better luck next time.";
+                    }
                     message += ` Your score: ${gTotalScore[i]} Par: ${gPar}`;
                     body.text(message);
+
                     scoreModalButton.click();
+
+                    $('#score-modal-button').removeClass('btn-dark').addClass('btn-primary');
+                    $('#score-modal-button').trigger('focus');
+
                 });
             }
 
