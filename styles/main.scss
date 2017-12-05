@@ -49,10 +49,30 @@ body{
         #go{
           width: 100px;
         }
-        .course-dropdown {
+
+        #dropdownMenuPlayers{
+          width: 186.86px;
+
+          #player-number-dropdown{
+            @extend #dropdownMenuPlayers;
+          }
+        }
+
+
+        #tee-dropdown{
+          //width: 109.72px;
+          #dropdownTeeButton{
+           // width: 109.72px;
+          }
+        }
+
+        #course-dropdown {
+          width: 297.07px;
+
 
           #dropdownMenuButton {
-            width: 80%;
+            width: 297.07px;
+
           }
         }
     }

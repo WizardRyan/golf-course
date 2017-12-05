@@ -1,29 +1,3 @@
-let closeCourses;
-let localObj = {latitude: 40.4426135, longitude: -111.8631115, radius: 20};
-let dropDown = $('#dropdown-courses');
-let currentId;
-let currentCourse;
-let buttonRow = $('.card-buttons');
-let currentTee;
-let teeAdded = false;
-let scoreTable = $('#score-table');
-let welcomeCard = $('#welcome-card');
-let modalButton = $('#modal-button');
-let inputRadius = $('#radius-input');
-let modalGoButton = $('#modal-go-bttn');
-let tableHeadRow = $('#score-table-head-row');
-let playerDropdown = $('#player-number-dropdown');
-let numOfPlayers = 1;
-let tableBody = $('#table-body');
-let selectTeeDiv = $('#select-tee');
-let numHoles = 0;
-let teeHeader = $('#course-tee-type-header');
-let mainHeader = $('#main-header-id');
-let scoreModalButton = $('#score-modal-button');
-let gTotalScore = [];
-let gPar = 0;
-let parRow = $('#par');
-
 function loadMe(){
     scoreTable.hide();
     selectTeeDiv.hide();
@@ -49,7 +23,7 @@ function loadMe(){
 }
 
 modalGoButton.on('click', () => {
-    localObj.radius = (inputRadius.val()) ? inputRadius.val() : 20;
+    localObj.radius = (inputRadius.val()) ? inputRadius.val() * 1.60934 : 20 * 1.60934;
     let coordinates = $('#coordinate-input').val().split(" ");
     if(coordinates.length > 1){
         localObj.latitude = Number(coordinates[0]);
@@ -103,8 +77,8 @@ function addCardDetails(){
 }
 
 function addTees(elem, id){
-     dropdownButton = ` <div class="dropdown" id="course-dropdown">
-                               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+     dropdownButton = ` <div class="dropdown" id="tee-dropdown">
+                               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownTeeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Select Tee
                                </button>
                            <div class="dropdown-menu" id="dropdown-tees-${id}" aria-labelledby="dropdownMenuButton">
@@ -114,15 +88,18 @@ function addTees(elem, id){
     let dropDownTees;
 
     if(!teeAdded){
-        elem.append(dropdownButton);
-        dropDownTees = $(`#dropdown-tees-${id}`);
-        teeAdded = !teeAdded;
+        let jButton = $(dropdownButton);
+        jButton.css({"width" : "0"});
+        elem.append(jButton);
+        jButton.animate({width: "109.72"}, () => {
+            teeAdded = !teeAdded;
+        });
     }
     else{
-        dropDownTees = $(`#dropdown-tees-${id}`);
         dropDownTees.empty();
     }
 
+    dropDownTees = $(`#dropdown-tees-${id}`);
 
     dropDownTees.append('<a href="#" class="dropdown-item courses-tee-class"> Loading... </a>');
 
@@ -151,24 +128,37 @@ function loadScoreCard(){
         numHoles++;
     }
 
-    welcomeCard.hide();
-    selectTeeDiv.show();
-    mainHeader.show();
-    scoreTable.show();
-    let nameHeader = $('#course-name-header');
-    nameHeader.text(currentCourse.course.name);
-    teeHeader.text(currentTee);
+    welcomeCard.css({"position" : "relative"});
+    welcomeCard.animate({right: "+=1000"}, () => {
+        welcomeCard.hide();
 
-    teeAdded = false;
-    addTees(selectTeeDiv, 2);
-    $('button').removeClass('btn-secondary').addClass('btn-dark');
-    $('#dropdown-tees-2').on('click', 'a', function (e) {
-        currentTee = $(this).text();
-        updateTees(e);
+        mainHeader.css({"height" : "0"});
+        mainHeader.show();
+        mainHeader.animate({height: "100px"});
+        scoreTable.css({"position" : "relative"});
+        scoreTable.css({"left" : "+=1000"});
+        scoreTable.show();
+        scoreTable.animate({left: "-=1000"}, () => {
+            let nameHeader = $('#course-name-header');
+            nameHeader.text(currentCourse.course.name);
+            teeHeader.text(currentTee);
+
+            selectTeeDiv.show();
+            teeAdded = false;
+            addTees(selectTeeDiv, 2);
+            $('button').removeClass('btn-secondary').addClass('btn-dark');
+            $('#dropdown-tees-2').on('click', 'a', function (e) {
+                currentTee = $(this).text();
+                updateTees(e);
+            });
+
+        });
+
+        addHoles();
+        addPlayers();
+
     });
 
-    addHoles();
-    addPlayers();
 }
 
 

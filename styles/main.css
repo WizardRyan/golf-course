@@ -31,8 +31,12 @@ body {
     margin: 20px; }
     .select-golf-card .card-body .card-buttons #go {
       width: 100px; }
-    .select-golf-card .card-body .card-buttons .course-dropdown #dropdownMenuButton {
-      width: 80%; }
+    .select-golf-card .card-body .card-buttons #dropdownMenuPlayers, .select-golf-card .card-body .card-buttons #dropdownMenuPlayers #player-number-dropdown {
+      width: 186.86px; }
+    .select-golf-card .card-body .card-buttons #course-dropdown {
+      width: 297.07px; }
+      .select-golf-card .card-body .card-buttons #course-dropdown #dropdownMenuButton {
+        width: 297.07px; }
 
 .launch-modal {
   display: none; }
