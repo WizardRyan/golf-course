@@ -122,8 +122,6 @@ function addCardDetails(){
 
     });
 
-
-
     $('#welcome-card-title').text(currentCourse.course.name);
 }
 
@@ -155,7 +153,6 @@ function addTees(elem, id){
 
     dropDownTees.append('<a href="#" class="dropdown-item courses-tee-class"> Loading... </a>');
 
-    //window.setTimeout(() => {
         dropDownTees.empty();
         for(let te in currentCourse.course.tee_types){
             if(currentCourse.course.tee_types[te].tee_type !== ""){
@@ -171,7 +168,6 @@ function addTees(elem, id){
            currentTee = $(this).text();
            dropDownTees.prev().text(currentTee);
         });
-    //}, 2000);
 }
 
 function fillTees(){
@@ -189,8 +185,7 @@ function loadScoreCard(){
         welcomeCard.hide();
 
 
-        scoreTable.css({"position" : "relative"});
-        scoreTable.css({"left" : "+=1000"});
+        scoreTable.css({"position" : "relative", "left" : "+=1000"});
         scoreTable.show();
         scoreTable.animate({left: "-=1000"}, () => {
             let nameHeader = $('#course-name-header');
@@ -275,9 +270,7 @@ function addPlayers() {
         for(let j in currentCourse.course.holes){
             currentPlayer.append(`<td><input id="score-input-${i}-${j}" class="score-input" type="number"></td>`);
 
-            //!!
             //keep the coalescence!!
-            //!!
             if(j == Object.keys(currentCourse.course.holes).length - 1){
 
                 $(`#score-input-${i}-${j}`).on('input', function () {
@@ -394,6 +387,5 @@ function updateTees(e){
             jVar.animate({bottom : "-=20", opacity : "1"}, "fast");
         }, time);
         time += tIncrement;
-
     }
 }
