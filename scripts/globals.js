@@ -3,7 +3,7 @@
 
 let cardImage = $('.card-img-top');
 
-let descriptionText= 'Select a course, then select your preferred tee type. When you\'re satisfied with your selection, hit \'Go\'.';
+let descriptionText= 'Select a course, the number of players this game, and then your preferred tee type. When you\'re satisfied with your selections, hit \'Go\'.';
 
 let dropdownButton;
 

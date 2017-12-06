@@ -5,7 +5,8 @@ body {
   height: 100%;
   width: 100%;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  overflow-x: hidden; }
 
 .main-header {
   width: 100%;
@@ -91,5 +92,14 @@ body {
 
 .player-input:focus {
   outline: none; }
+
+#score-table {
+  border-radius: 4px; }
+
+#yardage {
+  max-height: 46.98px; }
+
+.card-img-top {
+  max-height: 800px; }
 
 /*# sourceMappingURL=main.css.map */

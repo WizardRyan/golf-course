@@ -64,14 +64,65 @@ function getCourse(courseId, e){
 
 function addCardDetails(){
 
-    cardImage.attr('src', currentCourse.course.thumbnail);
+    let img = new Image();
+    let width;
+    let height;
+    let cardHeight = 246.94;
+    let cardDescription = $('#welcome-card-description');
+
+
+    function getImage(){
+        return new Promise(resolve => {
+            img.src = currentCourse.course.thumbnail;
+            $(img).on('load', () => {
+                width = img.width;
+                height = img.height;
+                let obj = {width, height};
+                resolve(obj);
+            });
+        });
+    }
+
 
     if(currentCourse.course.description){
-        $('#welcome-card-description').text(currentCourse.course.description);
+        cardDescription.text(currentCourse.course.description);
     }
     else{
-        $('#welcome-card-description').text(descriptionText);
+       cardDescription.text(descriptionText);
     }
+
+    function animImage(){
+        cardImage.animate({opacity: ".5"}, 100,  () => {
+            cardImage.css({'max-height': '500px'});
+            cardImage.attr('src', currentCourse.course.thumbnail);
+            cardImage.animate({opacity: "1"}, 100);
+        });
+
+    }
+
+    function animCard(val) {
+        welcomeCard.animate({height: val}, 100, () => {
+            animImage();
+        });
+    }
+
+    getImage().then(obj => {
+        let nextHeight = cardHeight + cardDescription.height() + obj.height - 41.9789; //just accept the magic
+        let currentHeight = welcomeCard.height();
+
+        console.log(nextHeight, currentHeight);
+
+        if(currentHeight < nextHeight){
+            animCard(`+=${nextHeight - currentHeight}px`);
+        }
+
+        else if(currentHeight > nextHeight){
+            animCard(`-=${currentHeight - nextHeight}px`);
+        }
+
+    });
+
+
 
     $('#welcome-card-title').text(currentCourse.course.name);
 }
@@ -96,10 +147,11 @@ function addTees(elem, id){
         });
     }
     else{
-        dropDownTees.empty();
     }
 
     dropDownTees = $(`#dropdown-tees-${id}`);
+    dropDownTees.empty();
+
 
     dropDownTees.append('<a href="#" class="dropdown-item courses-tee-class"> Loading... </a>');
 
@@ -122,6 +174,10 @@ function addTees(elem, id){
     //}, 2000);
 }
 
+function fillTees(){
+
+}
+
 function loadScoreCard(){
 
     for(let i in currentCourse.course.holes){
@@ -132,9 +188,7 @@ function loadScoreCard(){
     welcomeCard.animate({right: "+=1000"}, () => {
         welcomeCard.hide();
 
-        mainHeader.css({"height" : "0"});
-        mainHeader.show();
-        mainHeader.animate({height: "100px"});
+
         scoreTable.css({"position" : "relative"});
         scoreTable.css({"left" : "+=1000"});
         scoreTable.show();
@@ -152,12 +206,18 @@ function loadScoreCard(){
                 updateTees(e);
             });
 
+            mainHeader.css({"height" : "0"});
+            mainHeader.show();
+            mainHeader.animate({height: "100px"});
+
         });
 
         addHoles();
         addPlayers();
 
     });
+
+
 
 }
 
@@ -185,7 +245,6 @@ function addHoles(){
             }
         }
     }
-    //yardage.reverse();
     holes.reverse();
     for(let i in currentCourse.course.holes){
         tableHeadRow.prepend(holes[i]);
@@ -198,7 +257,7 @@ function addHoles(){
         parRow.append(`<td></td>`);
     }
     parRow.append(`<td>${gPar}</td>`);
-    tableHeadRow.prepend(`<th scope=col"> Score Card </th>`);
+    tableHeadRow.prepend(`<th scope="col"> Score Card </th>`);
 
 }
 
@@ -211,12 +270,17 @@ function addPlayers() {
                     <input type="text" class="player-input" placeholder="Player ${i + 1}" >
                 </th>
             </tr>`);
+        let currentPlayer = $(`#player${i}`);
+
         for(let j in currentCourse.course.holes){
-            $(`#player${i}`).append(`<td><input id="score-input-${i}-${j}" class="score-input" type="number"></td>`);
+            currentPlayer.append(`<td><input id="score-input-${i}-${j}" class="score-input" type="number"></td>`);
+
+            //!!
+            //keep the coalescence!!
+            //!!
             if(j == Object.keys(currentCourse.course.holes).length - 1){
 
                 $(`#score-input-${i}-${j}`).on('input', function () {
-                    console.log("I'm in the func");
                     updateScores();
                     let body = $('#score-modal-body');
                     let message;
@@ -235,8 +299,8 @@ function addPlayers() {
 
                     scoreModalButton.click();
 
-                    $('#score-modal-button').removeClass('btn-dark').addClass('btn-primary');
-                    $('#score-modal-button').trigger('focus');
+                    scoreModalButton.removeClass('btn-dark').addClass('btn-primary');
+                    scoreModalButton.trigger('focus');
 
                 });
             }
@@ -246,15 +310,14 @@ function addPlayers() {
             }
         }
 
-        $(`#player${i}`).append(`<td id=player-in-${i}></td>`);
-        $(`#player${i}`).append(`<td id=player-out-${i}></td>`);
-        $(`#player${i}`).append(`<td id=player-total-${i}></td>`);
+        currentPlayer.append(`<td id=player-in-${i}></td>`);
+        currentPlayer.append(`<td id=player-out-${i}></td>`);
+        currentPlayer.append(`<td id=player-total-${i}></td>`);
 
     }
 }
 
 function updateScores(){
-
 
     let numOfHoles = 0;
 
@@ -300,22 +363,37 @@ function updateScores(){
 }
 
 function updateTees(e){
-    teeHeader.text(currentTee);
+    teeHeader.css({"position" : "relative"});
+    teeHeader.animate({left: "+=300"}, () => {
+        teeHeader.text(currentTee);
+        teeHeader.animate({left: "-=300"});
+    });
 
     let yardage = [];
     for(let i in currentCourse.course.holes){
         for(let j in currentCourse.course.holes[i].tee_boxes){
             if(currentCourse.course.holes[i].tee_boxes[j].tee_type === currentTee){
-                yardage.push(`<td>${currentCourse.course.holes[i].tee_boxes[j].yards}`);
+                yardage.push(`<td>${currentCourse.course.holes[i].tee_boxes[j].yards}</td>`);
             }
         }
     }
 
     for(let i = 0; i < numHoles; i++){
-        $('#yardage').children().last().remove();
+        $('#yardage').children().last().fadeOut().remove();
     }
 
+    let tIncrement = 30;
+    let time = 0;
+
     for(let i = 0; i < numHoles; i++){
-        $('#yardage').append(yardage[i]);
+
+        let jVar = $(`${yardage[i]}`);
+        jVar.css({"max-height" : "46.98px", "height" : "46.98px", "position" : "relative", "bottom" : "20px", "opacity" : "0"});
+        $('#yardage').append(jVar);
+        window.setTimeout(() => {
+            jVar.animate({bottom : "-=20", opacity : "1"}, "fast");
+        }, time);
+        time += tIncrement;
+
     }
 }
