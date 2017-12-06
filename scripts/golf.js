@@ -23,7 +23,8 @@ function loadMe(){
 }
 
 modalGoButton.on('click', () => {
-    localObj.radius = (inputRadius.val()) ? inputRadius.val() * 1.60934 : 20 * 1.60934;
+    const MILES_IN_KILOMETER = 1.60934;
+    localObj.radius = (inputRadius.val()) ? inputRadius.val() * MILES_IN_KILOMETER : 20 * MILES_IN_KILOMETER;
     let coordinates = $('#coordinate-input').val().split(" ");
     if(coordinates.length > 1){
         localObj.latitude = Number(coordinates[0]);
@@ -97,7 +98,6 @@ function addCardDetails(){
             cardImage.attr('src', currentCourse.course.thumbnail);
             cardImage.animate({opacity: "1"}, 100);
         });
-
     }
 
     function animCard(val) {
